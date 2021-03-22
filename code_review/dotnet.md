@@ -1,11 +1,11 @@
-#deserialization
-XmlSerializer\(Type\.GetType|BinaryFormatter\(
+# deserialization
+	XmlSerializer\(Type\.GetType|BinaryFormatter\(
 
-#xxe (insecure defaults) -> .NET version needs to be <  4.5.2 
-XmlDocument|XmlTextReader|XPathNavigator	
+# xxe (insecure defaults) -> .NET version needs to be <  4.5.2 
+	XmlDocument|XmlTextReader|XPathNavigator	
 
-#command injection
-Process\.Start\(|new Process\(
+# command injection
+	Process\.Start\(|new Process\(
 
-#razor ssti
-razor\.Parse\(
+# razor ssti
+	razor\.Parse\(
