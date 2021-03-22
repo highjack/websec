@@ -24,6 +24,7 @@ This is page is an overview of quick wins to look at when doing source code grou
 
 ### Code Injection
 Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
+	
 	eval\s+\(|assert\s+\(|preg_replace\s+\('\/\.\*\/e'|create_function\s+\(|include\s+\(|include_once\s+\(|require\s+\(|require_once\s+\(
 
 ### Command Injection
