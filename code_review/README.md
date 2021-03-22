@@ -4,6 +4,7 @@ This is a page an overview of quick wins to look at when doing source code group
 # Table of Contents
 1. [.NET](#.NET)
 2. [PHP](#PHP)
+3. [Java](#java)
 
 ## .NET
 ### Deserialization
@@ -32,4 +33,6 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 	libxml_disable_entity_loader\(false\);
 
 
-
+## Java
+## Deserialization
+	readObject\(
