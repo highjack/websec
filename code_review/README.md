@@ -1,5 +1,5 @@
 # Overview
-This is a page an overview of quick wins to look at when doing source code grouped by language. Apollogies if the regexes aren't the best, I will fix them if I find a better way of doing it, please feel free to raise an issue for obvious things I'm missing.
+This is page is an overview of quick wins to look at when doing source code grouped by language. Apollogies if the regexes aren't the best, I will fix them if I find a better way of doing it. 
 
 # Table of Contents
 1. [.NET](#.NET)
