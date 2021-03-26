@@ -37,4 +37,5 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 ## Java
 ## Deserialization
 Reference: https://paper.bobylive.com/Security/asd-f03-serial-killer-silently-pwning-your-java-endpoints.pdf
+
 	readObject\(|readResolve\(|readExternal\(
