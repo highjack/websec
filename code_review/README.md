@@ -37,6 +37,9 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 
 ### Insecure Randomness
 	rand\s?(
+	
+### Type Juggling
+Realistically you can't grep for this, but you can look for the use of double equals (==) instead of tripple equals (===) in sensitive areas such as token generation or comparison of user's password hashes.
 
 ## Java
 ### Deserialization
