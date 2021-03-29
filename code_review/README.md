@@ -6,6 +6,7 @@ This is page is an overview of quick wins to look at when doing source code grou
 2. [PHP](#PHP)
 3. [Java](#java)
 4. [Python](#python)
+5. [SQL](#sql)
  
 ## .NET
 ### Deserialization
@@ -52,3 +53,11 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 ## Python
 ### Deserialization
 	unpickle|pickle
+
+## SQL
+Generic pattern to find potential SQL injections.
+1 - Find all SQL queries:
+	[\'\"]\s?(SELECT|UPDATE|INSERT|DELETE|select|update|delete|insert).+\s?[\'\"]
+2 - Grab the results and check for any that have dynamic strings creation, if you are super lazy you can try this Regex but your milage may vary, it looks for default concatenation using . or +:
+	.+\..+|.+\+.+
+
