@@ -56,8 +56,8 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 
 ## SQL
 Generic pattern to find potential SQL injections.
-1 - Find all SQL queries:
+Find all SQL queries:
 	[\'\"]\s?(SELECT|UPDATE|INSERT|DELETE|select|update|delete|insert).+\s?[\'\"]
-2 - Grab the results and check for any that have dynamic strings creation, if you are super lazy you can try this Regex but your milage may vary, it looks for default concatenation using . or +:
+Grab the results and check for any that have dynamic strings creation, if you are super lazy you can try this Regex but your milage may vary, it looks for default concatenation using . or +:
 	.+\..+|.+\+.+
 
