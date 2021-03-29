@@ -27,20 +27,22 @@ This is page is an overview of quick wins to look at when doing source code grou
 ### Code Injection
 Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 	
-	eval\s+\(|assert\s+\(|preg_replace\s+\('\/\.\*\/e'|create_function\s+\(|include\s+\(|include_once\s+\(|require\s+\(|require_once\s+\(
+	eval\s?\(|assert\s?\(|preg_replace\s?\('\/\.\*\/e'|create_function\s?\(|include\s?\(|include_once\s?\(|require\s?\(|require_once\s?\(
 
 ### Command Injection
-	exec\s+\(|passthru\(system\s+\(shell_exec\s+\(|`.+`|popen\s+\(|proc_open\s+\(pcntl_exec\s+\(
+	exec\s?\(|passthru\s?\(|system\s?\(|shell_exec\s?\(|`.+`|popen\s?\(|proc_open\s?\(|pcntl_exec\s?\(
 
 ### XXE
 	libxml_disable_entity_loader\(false\);
 
+### Insecure Randomness
+	rand\s?(
 
 ## Java
 ### Deserialization
 Reference: https://paper.bobylive.com/Security/asd-f03-serial-killer-silently-pwning-your-java-endpoints.pdf
 
-	readObject\(|readResolve\(|readExternal\(
+	readObject\s?\(|readResolve\s?\(|readExternal\s?\(
 	
 ### XXE
 Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applications/
@@ -50,12 +52,15 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 *  DocumentBuilderFactory: to prevent XInclude which allow XXE look for calls to '.setXIncludeAware(false)' or '.setExpandEntityReferences(false)' to see if it's protected.
 *  XMLInputFactory: To see if this is mitigated look for 'setProperty(XMLInputFactory.SUPPORT_DTD, false)' or 'setProperty("javax.xml.stream.isSupportingExternalEntities", false)'
 
+### Insecure Randomness
+	random.nextInt\s?\(
+
 ## Python
 ### Deserialization
 	unpickle|pickle
 
 ### Command Injection
-	os.system\(|subprocess\.run\(|subprocess\.Popen\(
+	os.system\s?\(|subprocess\.run\s?\(|subprocess\.Popen\s?\(
 
 ## SQL
 Generic pattern to find potential SQL injections.
