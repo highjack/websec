@@ -54,6 +54,9 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 ### Deserialization
 	unpickle|pickle
 
+### Command Injection
+	os.system\(|subprocess\.run\(|subprocess\.Popen\(
+
 ## SQL
 Generic pattern to find potential SQL injections.
 Find all SQL queries:
