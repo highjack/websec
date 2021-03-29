@@ -5,7 +5,8 @@ This is page is an overview of quick wins to look at when doing source code grou
 1. [.NET](#.NET)
 2. [PHP](#PHP)
 3. [Java](#java)
-
+4. [Python](#python)
+ 
 ## .NET
 ### Deserialization
 	XmlSerializer\(Type\.GetType|BinaryFormatter\(
@@ -35,7 +36,11 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 
 
 ## Java
-## Deserialization
+### Deserialization
 Reference: https://paper.bobylive.com/Security/asd-f03-serial-killer-silently-pwning-your-java-endpoints.pdf
 
 	readObject\(|readResolve\(|readExternal\(
+
+## Python
+### Deserialization
+	unpickle|pickle
