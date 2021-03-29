@@ -40,6 +40,20 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 Reference: https://paper.bobylive.com/Security/asd-f03-serial-killer-silently-pwning-your-java-endpoints.pdf
 
 	readObject\(|readResolve\(|readExternal\(
+	
+### XXE
+Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applications/
+	
+	DocumentBuilderFactory|XMLReader
+Note: examine calls to .setFeature and look for 'disallow-doctype-decl', 'external-general-entities', 'external-parameter-entities' and 'load-external-dtd' to see if XXE is mitigated. 
+
+For DocumentBuilderFactory to prevent XInclude which allow XXE look for calls to '.setXIncludeAware(false)' or '.setExpandEntityReferences(false)' to see if it's protected.
+
+	XMLInputFactory
+Note: To see if this is mitigated look for 'setProperty(XMLInputFactory.SUPPORT_DTD, false)' or 'setProperty("javax.xml.stream.isSupportingExternalEntities", false)'
+
+
+	
 
 ## Python
 ### Deserialization
