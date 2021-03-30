@@ -65,6 +65,31 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 ### Command Injection
 	os.system\s?\(|subprocess\.run\s?\(|subprocess\.Popen\s?\(
 
+### Code Injection
+	eval
+	
+### SSTI 
+#### Mako
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/python/python-Mako/src/server.py
+	
+	Template\(.+\).render
+	
+#### Tornado 
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/python/python-Tornado/src/server.py
+
+	tornado.template.Template\( 
+
+#### Django
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/python/python-django/src/site/server/views.py
+
+	.from_string(template_code= 
+
+#### Jinja2 
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/python/python-jinja2/src/server.py
+
+	render_template_string
+
+
 ## SQL
 Generic pattern to find potential SQL injections.
 Find all SQL queries:
