@@ -5,6 +5,6 @@ This repo contains any tools, techniques or scripts that I have used to break we
 
 If anything in this repo has helped you please consider donating to [Cancer Research UK](https://www.cancerresearchuk.org/get-involved/donate)
 
-Knowledge is power, so hack the planet and be excellant to each other.
+Knowledge is power, hack the planet and be excellent to each other.
 
 highjack.
