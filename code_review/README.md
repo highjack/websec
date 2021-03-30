@@ -41,6 +41,19 @@ Reference: https://stackoverflow.com/questions/3115559/exploitable-php-functions
 ### Type Juggling
 Realistically you can't grep for this, but you can look for the use of double equals (==) instead of tripple equals (===) in sensitive areas such as token generation or comparison of user's password hashes.
 
+### SSTI
+#### Twig 
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/php/Twig/src/index.php
+Note: User input passed as template like  **$loader = new Twig_Loader_Array(array('index' => $userinput,))**
+
+	Twig_Loader_Array\( 
+
+#### Smarty
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/php/php-smarty-security-mode/src/index.php
+Note: User input passed as a template like **$smarty->display('string:'.$user_input);**
+
+	->display(
+
 ## Java
 ### Deserialization
 Reference: https://paper.bobylive.com/Security/asd-f03-serial-killer-silently-pwning-your-java-endpoints.pdf
@@ -57,6 +70,19 @@ Reference: https://securityboulevard.com/2021/02/preventing-xxe-in-java-applicat
 
 ### Insecure Randomness
 	random.nextInt\s?\(
+
+### SSTI
+#### FreeMarker
+Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/java/FreeMarker/src/src/main/java/Main.java
+
+	new Template\(".+", new StringReader\(.+\)
+
+####  Groovy, Thymeleaf, Velocity
+	import groovy.text.SimpleTemplateEngine|import org.thymeleaf.templateresolver.StringTemplateResolver|import org.apache.velocity.Template
+References: 
+* https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/java/Thymeleaf/src/src/main/java/SpringBootServer.java
+* https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/java/Groovy/src/src/main/java/SpringBootServer.java
+* https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/java/Velocity/src/src/main/java/SpringBootServer.java
 
 ## Python
 ### Deserialization
