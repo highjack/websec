@@ -44,12 +44,14 @@ Realistically you can't grep for this, but you can look for the use of double eq
 ### SSTI
 #### Twig 
 Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/php/Twig/src/index.php
+
 Note: User input passed as template like  **$loader = new Twig_Loader_Array(array('index' => $userinput,))**
 
 	Twig_Loader_Array\( 
 
 #### Smarty
 Reference: https://github.com/DiogoMRSilva/websitesVulnerableToSSTI/blob/master/php/php-smarty-security-mode/src/index.php
+
 Note: User input passed as a template like **$smarty->display('string:'.$user_input);**
 
 	->display(
