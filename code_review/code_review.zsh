@@ -103,6 +103,3 @@ cr_sql()
 	
 }
 
-cr_findlangs()
-{
-}
