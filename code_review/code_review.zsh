@@ -92,6 +92,8 @@ cr_node(){
 	default_grep "Math.random()" $1
 	header "Command Injection"
 	default_grep "execSync\(|exec\(|spawn\(" $1
+	header "Code injection"
+	default_grep "eval\(" $1
 }
 
 cr_sql()
