@@ -15,12 +15,9 @@ default_grep()
 			echo "⚠️$fg[green] Waring this match appears to contain a dynamic query⚠️ $reset_color"
 		fi
 		echo -n "${GREP} "
-
-		#	echo "WARN"
 	else
 		echo "No issues found"
 	fi
-
 }
 
 cr_dotnet(){
@@ -91,7 +88,10 @@ cr_python(){
 
 cr_node(){
 	current_lang "Node"
-
+	header "Insecure Randomness"
+	default_grep "Math.random()" $1
+	header "Command Injection"
+	default_grep "execSync\(|exec\(|spawn\(" $1
 }
 
 cr_sql()
