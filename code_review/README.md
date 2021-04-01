@@ -1,7 +1,7 @@
 # Overview
 This is page is an overview of quick wins to look at when doing source code grouped by language. Apollogies if the regexes aren't the best, I will fix them if I find a better way of doing it. 
 
-The items with ✔️ by them are added to code_review.zsh
+The items with ✔️ by them have been added to code_review.zsh which is a zsh script that I have created which uses the greps below based on the target language i.e. running **cr_php .** will run the PHP checks in the current folder.
 
 # Table of Contents
 1. [.NET](#.NET)
