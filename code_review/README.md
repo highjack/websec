@@ -139,7 +139,7 @@ Grab the results and check for any that have dynamic strings creation, if you ar
 	Math.random()
 	
 ### Command Injection ✔️
-	default_grep "execSync\(|exec\(|spawn\(" $1
+	execSync\(|exec\(|spawn\(
 
 ### Code injection ✔️
 	eval\(
