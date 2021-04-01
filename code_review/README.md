@@ -9,6 +9,7 @@ The items with ✔️ by them are added to code_review.zsh
 3. [Java](#java)
 4. [Python](#python)
 5. [SQL](#sql)
+6. [Node](#node)
  
 ## .NET
 ### Deserialization ✔️
@@ -132,4 +133,14 @@ Find all SQL queries:
 Grab the results and check for any that have dynamic strings creation, if you are super lazy you can try this Regex but your milage may vary, it looks for default concatenation using . or +:
 	
 	.+\..+|.+\+.+
+
+## Node 
+### Insecure Randomness ✔️
+	Math.random()
+	
+### Command Injection ✔️
+	default_grep "execSync\(|exec\(|spawn\(" $1
+
+### Code injection ✔️
+	eval\(
 
