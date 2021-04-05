@@ -95,7 +95,10 @@ class webpwn:
                     filehandle = open(file_path, "rb")
                     file_parameter = {file_parameter: filehandle}
                     self.debug(file_parameter)
-                    r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files = file_path)
+                    data = { "submit_import" : "Import"}
+                    headers = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0'}
+                    print(type(file_parameter))
+                    r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files=file_parameter)
                 else:
                     self.error("Local file \"{}\" does not exist".format(file_path))
             else:
