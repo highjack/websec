@@ -4,6 +4,7 @@ import hashlib
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import os.path
+import subprocess
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -20,8 +21,8 @@ class webpwn:
         self.author = author
         self.date = date
         self.proxy_enabled = proxy_enabled
-        self.banner(self.exploit_name, self.author, self.date)
         self.debug_enabled = debug_enabled
+        self.banner(self.exploit_name, self.author, self.date)
     
     def error(self, message):
         print("[❌] {}".format(message))
@@ -58,9 +59,17 @@ class webpwn:
         m.update(input.encode('ascii'))
         return m.hexdigest()
 
+    def run_command(self, command):
+        array_command = command.split(" ")
+        process = subprocess.Popen(array_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        process.wait()
+        stdout = stdout.decode('ascii')
+        stderr = stderr.decode('ascii')
+        return stdout, stderr
+
     
-    def request(self, method, url, data=None, session=None, cookies=None, headers=None, useragent=None, redirects=True, filepath=None, file_parameter=None):
-        self.debug("test")
+    def request(self, method, url, data=None, session=None, cookies=None, headers=None, useragent=None, redirects=True, file_path=None, file_parameter=None):
         method = method.upper()
         if self.proxy_enabled == False:
             proxies = None
@@ -81,14 +90,16 @@ class webpwn:
         elif method == "POST":
             r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects)
         elif method == "UPLOAD":
-            if filepath != None and file_parameter != None:
-                if os.path.isfile(filepath):
+            if file_path != None and file_parameter != None:
+                if os.path.isfile(file_path):
+                    filehandle = open(file_path, "rb")
                     file_parameter = {file_parameter: filehandle}
+                    self.debug(file_parameter)
                     r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files = filepath)
                 else:
-                    error("Local file \"{}\" does not exist".format(file_path))
+                    self.error("Local file \"{}\" does not exist".format(file_path))
             else:
-                error("filepath and file_parameter not set")
+                self.error("filepath and file_parameter not set")
 
         response = r.text
         return response, session
