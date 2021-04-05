@@ -95,7 +95,7 @@ class webpwn:
                     filehandle = open(file_path, "rb")
                     file_parameter = {file_parameter: filehandle}
                     self.debug(file_parameter)
-                    r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files = filepath)
+                    r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files = file_path)
                 else:
                     self.error("Local file \"{}\" does not exist".format(file_path))
             else:
