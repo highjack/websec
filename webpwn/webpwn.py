@@ -42,6 +42,23 @@ class webpwn:
         print("{}[- Date -]: {}{}".format(Fore.BLUE, Fore.CYAN, date))
         print("{}[- Author -]: {}{}{}".format(Fore.BLUE, Fore.CYAN, author, Style.RESET_ALL))
         self.debug("[+] Proxy Enabled: {}".format(str(self.proxy_enabled)))
+    
+    def build_zip(zip_dict, output_file_name):
+        if zip_dict != None or output_file_name != None:
+            f = StringIO()
+            z = zipfile.ZipFile(f, 'w', zipfile.ZIP_DEFLATED)
+            for key in zip_dict.keys():
+                file_name = key
+                contents = zip_dict[file_name]
+                z.writestr(file_name, contents)
+
+            z.close()
+            zip = open(output_file_name,'wb')
+            zip.write(f.getvalue())
+            zip.close()
+        else:
+            self.error("Dictionary of zip items or the filename was not provided")
+
 
    
     def hash(self, method, input):
@@ -67,6 +84,7 @@ class webpwn:
         stdout = stdout.decode('ascii')
         stderr = stderr.decode('ascii')
         return stdout, stderr
+
 
     
     def request(self, method, url, data=None, session=None, cookies=None, headers=None, useragent=None, redirects=True, file_path=None, file_parameter=None):
@@ -94,10 +112,6 @@ class webpwn:
                 if os.path.isfile(file_path):
                     filehandle = open(file_path, "rb")
                     file_parameter = {file_parameter: filehandle}
-                    self.debug(file_parameter)
-                    data = { "submit_import" : "Import"}
-                    headers = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0'}
-                    print(type(file_parameter))
                     r = session.post(url, data=data, cookies=cookies, headers=headers, proxies=proxies, verify=False, allow_redirects=redirects, files=file_parameter)
                 else:
                     self.error("Local file \"{}\" does not exist".format(file_path))
