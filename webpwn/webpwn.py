@@ -5,6 +5,8 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import os.path
 import subprocess
+import zipfile
+import io
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -43,9 +45,9 @@ class webpwn:
         print("{}[- Author -]: {}{}{}".format(Fore.BLUE, Fore.CYAN, author, Style.RESET_ALL))
         self.debug("[+] Proxy Enabled: {}".format(str(self.proxy_enabled)))
     
-    def build_zip(zip_dict, output_file_name):
+    def build_zip(self, zip_dict, output_file_name):
         if zip_dict != None or output_file_name != None:
-            f = StringIO()
+            f = io.BytesIO(b"")
             z = zipfile.ZipFile(f, 'w', zipfile.ZIP_DEFLATED)
             for key in zip_dict.keys():
                 file_name = key
