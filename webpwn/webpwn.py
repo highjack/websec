@@ -7,6 +7,9 @@ import os.path
 import subprocess
 import zipfile
 import io
+from flask import Flask, request                                                      
+import threading
+import sqlite3
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -17,6 +20,24 @@ class webpwn:
     proxy_enabled = False
     proxies = {'http': 'http://192.168.1.222:31337','https': 'http://192.168.1.222:31337',}
     debug_enabled = False
+    app = Flask(__name__)
+    
+    @app.route("/get")
+    def get_value():
+        name = request.args.get('name')
+        return "ok"
+
+    @app.route("/set")
+    def set_value():
+        con = sqlite3.connect('./data/webpwn.db3')
+        sql = "INSERT INTO logs (name, value, ref) VALUES (?, ?, ?)"
+        ref = request.headers.get("Referer")
+        name = request.args.get('name')
+        value = request.args.get('value')
+        cur = con.cursor()
+        cur.execute(sql, (name, value, ref))    
+        con.commit()
+        return "{}:{} added to database".format(name, value)
 
     def __init__(self, exploit_name, author, date, proxy_enabled=False, debug_enabled=False):
         self.exploit_name = exploit_name
@@ -44,6 +65,7 @@ class webpwn:
         print("{}[- Date -]: {}{}".format(Fore.BLUE, Fore.CYAN, date))
         print("{}[- Author -]: {}{}{}".format(Fore.BLUE, Fore.CYAN, author, Style.RESET_ALL))
         self.debug("[+] Proxy Enabled: {}".format(str(self.proxy_enabled)))
+       
     
     def build_zip(self, zip_dict, output_file_name):
         if zip_dict != None or output_file_name != None:
@@ -87,6 +109,10 @@ class webpwn:
         stderr = stderr.decode('ascii')
         return stdout, stderr
 
+    def webserver(self, static_folder, port):
+        self.status("Starting Flask Server...")
+        threading.Thread(target=self.app.run).start()
+        
 
     
     def request(self, method, url, data=None, session=None, cookies=None, headers=None, useragent=None, redirects=True, file_path=None, file_parameter=None):
