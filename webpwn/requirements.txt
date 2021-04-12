@@ -1,3 +1,4 @@
 pyfiglet
 colorama
 flask
+flask_cors
