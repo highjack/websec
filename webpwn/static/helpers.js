@@ -43,10 +43,18 @@ function request(method, url, headers, data, callback){
 
 }
 
+function get_url()
+{
+    var full_url = window.location.href;
+    var array = full_url.split("/");
+    var url = array[0]+"//"+array[2];
+    return url;
+}
+
 
 function get_data(name)
 {
-
+    request
 }
 
 function set_data(name, value, method, headers)

